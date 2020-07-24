@@ -45,16 +45,21 @@ app.layout = html.Div([
      Output(component_id='my_bee_map', component_property='figure')],
     [Input(component_id='slct_year', component_property='value')]
 )
+
+# Create a function to update the dashboard, yopu will have 1 argument for each Input from above which relates to the component property
 def update_graph(option_slctd):
     print(option_slctd)
     print(type(option_slctd))
 
     container = "The year chosen by user was: {}".format(option_slctd)
 
+#    Make a copy of the dataframe (just better practice and helps with refreshing) and filter it down based on parameters. Year examples below
     dff = df.copy()
+    
     dff = dff[dff["Year"] == option_slctd]
     dff = dff[dff["Affected by"] == "Varroa_mites"]
-
+    
+    
     # Plotly Express
     fig = px.choropleth(
         data_frame=dff,
@@ -86,6 +91,7 @@ def update_graph(option_slctd):
     #     geo=dict(scope='usa'),
     # )
 
+#   You need to return something for EACH output that you specified at the beginning
     return container, fig
 
 
